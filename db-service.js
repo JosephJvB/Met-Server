@@ -13,7 +13,7 @@ const PG_CONFIG = process.env.PORT
 const dbConnection = pgp(PG_CONFIG)
 
 module.exports = {
-  gimmeWellyWeather: function () {
+  gimmeWellyWeather: function getLatestWgtnWeather () {
     // get me the latest entry - one item with highest id
     return dbConnection.one('select * from wgtn_weather order by id desc limit 1')
       .then(latest => ({
@@ -23,9 +23,18 @@ module.exports = {
         minTemp: latest.min_temp.trim()
       }))
       .catch(err => {
-        console.error('\n\nPG-P error\n\n\n', err)
+        console.error('\n\nPG-P SELECT error\n\n\n', err)
         throw err
       })
+  },
+  saveWellyWeather: function insertScrapedData (scrapedDataString) {
+    return dbConnection.none(
+      `insert into wgtn_weather (date,description,max_temp,min_temp) values (${scrapedDataString})`
+    )
+    .catch(err => {
+      console.error('\n\nPG-P INSERT error\n\n\n', err)
+      throw err
+    })
   }
 }
 

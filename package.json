@@ -15,8 +15,10 @@
   "author": "joevanbo",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
+    "got": "^9.3.2",
     "nightmare": "^3.0.1",
     "pg-promise": "^8.5.2"
   }

@@ -5,7 +5,7 @@ _Met-Server is an api-endpoint that returns weather data as JSON that has been s
 End-points
 ===========
 - Wellingon Weather
-  - GET: `https://met-server-nz.herokuapp.com/wgtn`
+  - GET: `https://met-server-nz.herokuapp.com/api/v1/wgtn`
   - returns: JSON (eg below)
   ```json
   {

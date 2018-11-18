@@ -3,9 +3,11 @@
 // or I can just tell heroku to run it with node...
 const Nightmare = require('nightmare')
 const cheerio = require('cheerio')
+const got = require('got')
 
 const spookbot = Nightmare({show: false})
 const METSERVICE_WELLY_URL = 'https://www.metservice.com/towns-cities/wellington/wellington-city'
+const SAVE_DATA_URL = process.env.PORT ? 'https://met-server-nz.herokuapp.com/api/v1/save_scrape_data' : 'http://localhost:3000/api/v1/save_scrape_data'
 
 /* Scrape engine, vroom vroom
     returns Object: {
@@ -15,32 +17,37 @@ const METSERVICE_WELLY_URL = 'https://www.metservice.com/towns-cities/wellington
       minTemp: String
     } 
 */
-module.exports = function nearlyHeadlessNicholas () {
-  return spookbot
-    .goto(METSERVICE_WELLY_URL)
-    .wait(300) // can accept a css selector also but I will do with MS first
-    .evaluate(() => document.body.innerHTML) // evaluate runs in headless-browser console
-    .end()
-    .then(response => {
-      const $ = cheerio.load(response)
-      const todayElement = $('[class*="active today"]') // rely on this class to find today
-      const todayTitle = $(todayElement).find('h3').text() === 'Today'
-      // lil error handler: future proof your homes
-      if(!todayTitle) {
-        return console.error(line + '     OHSNAP' + line + '\nLooks like metservice has changed the DOM of their site. Please contact Joe asap.\n...Hey Joe, they changed the DOM.')
-      }
-      // util
-      const getTodayTextData = function getTextByClassName(dataPoint) {
-        const result = $(todayElement).find(`[class*="${dataPoint}"]`).text()
-        // todo: check result exists/looks allg before returning. Exists&&type 'string' might be enough?
-        return result
-      }
-    
-      return {
-        date: getTodayTextData('date'),
-        weather: getTodayTextData('icon').toLowerCase(),
-        maxTemp: getTodayTextData('high').split(' ')[0],
-        minTemp: getTodayTextData('low').split(' ')[0]
-      }
-    })
-}
+
+spookbot
+.goto(METSERVICE_WELLY_URL)
+.wait(300) // can accept a css selector also but I will do with MS first
+.evaluate(() => document.body.innerHTML) // evaluate runs in headless-browser console
+.end()
+.then(response => {
+  const $ = cheerio.load(response)
+  const todayElement = $('[class*="active today"]') // rely on this class to find today
+  const todayTitle = $(todayElement).find('h3').text() === 'Today'
+  // lil error handler: future proof your homes
+  if(!todayTitle) {
+    return console.error(line + '     OHSNAP' + line + '\nLooks like metservice has changed the DOM of their site. Please contact Joe asap.\n...Hey Joe, they changed the DOM.')
+  }
+  // util
+  const getTodayTextData = function getTextByClassName(dataPoint) {
+    const result = $(todayElement).find(`[class*="${dataPoint}"]`).text()
+    // todo: check result exists/looks allg before returning. Exists&&type 'string' might be enough?
+    return result
+  }
+
+  // formatting formation!
+  const date = getTodayTextData('date')
+  const description = getTodayTextData('icon').toLowerCase()
+  const maxTemp = getTodayTextData('high').split(' ')[0]
+  const minTemp = getTodayTextData('low').split(' ')[0]
+  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}'`
+
+  // just gonna send it
+  return got.post(SAVE_DATA_URL, {
+    body: weatherDataString,
+    headers: { 'Content-Type': 'text/plain' }
+  })
+})

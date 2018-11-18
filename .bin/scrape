@@ -13,12 +13,14 @@ const SAVE_DATA_URL = process.env.PORT ? 'https://met-server-nz.herokuapp.com/ap
     returns String: `date,description,maxTemp,minTemp`
 */
 
+
 spookbot
 .goto(METSERVICE_WELLY_URL)
 .wait(300) // can accept a css selector also but I will do with MS first
 .evaluate(() => document.body.innerHTML) // evaluate runs in headless-browser console
 .end()
 .then(response => {
+  console.log('won the scrape!')
   const $ = cheerio.load(response)
   const todayElement = $('[class*="active today"]') // rely on this class to find today
   const todayTitle = $(todayElement).find('h3').text() === 'Today'

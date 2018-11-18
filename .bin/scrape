@@ -39,10 +39,10 @@ spookbot
   const maxTemp = getTodayTextData('high').split(' ')[0]
   const minTemp = getTodayTextData('low').split(' ')[0]
   const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}'`
-
+  console.log('\n\nweatherDataString\n\n')
   // just gonna send it
   return got.post(SAVE_DATA_URL, {
     body: weatherDataString,
     headers: { 'Content-Type': 'text/plain' }
-  })
+  }).catch(e => console.error('\n\noh no\n\n', e))
 })

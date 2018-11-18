@@ -1,4 +1,4 @@
-<h1 align="center">Met-Server</h1>
+<h1 align="center">Met-Server (a W.I.P.)</h1>
 
 _Met-Server is an api-endpoint that returns weather data as JSON that has been scraped from `metservice.com`_
 

@@ -1,0 +1,23 @@
+{
+  "name": "met-server",
+  "version": "1.0.0",
+  "description": "metservice weather data as json",
+  "main": "server.js",
+  "scripts": {
+    "test": "no",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "weather",
+    "api",
+    "metservice"
+  ],
+  "author": "joevanbo",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "nightmare": "^3.0.1",
+    "pg-promise": "^8.5.2"
+  }
+}

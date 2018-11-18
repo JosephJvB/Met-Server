@@ -1,4 +1,4 @@
-#!/usr/env/node
+#!/usr/bin/env node
 // shbang and chmod -x means this file can be run by bash
 // or I can just tell heroku to run it with node...
 const Nightmare = require('nightmare')
@@ -10,12 +10,7 @@ const METSERVICE_WELLY_URL = 'https://www.metservice.com/towns-cities/wellington
 const SAVE_DATA_URL = process.env.PORT ? 'https://met-server-nz.herokuapp.com/api/v1/save_scrape_data' : 'http://localhost:3000/api/v1/save_scrape_data'
 
 /* Scrape engine, vroom vroom
-    returns Object: {
-      date: String,
-      weather: String,
-      maxTemp: String,
-      minTemp: String
-    } 
+    returns String: `date,description,maxTemp,minTemp`
 */
 
 spookbot

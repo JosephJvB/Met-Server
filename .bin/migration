@@ -1,4 +1,4 @@
-#!/usr/env/node
+#!/usr/bin/env node
 const dbConnection = require('../db-service').DB_CONN
 
 const args = process.argv.slice(2)

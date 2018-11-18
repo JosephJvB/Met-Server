@@ -13,6 +13,8 @@ const SAVE_DATA_URL = process.env.PORT ? 'https://met-server-nz.herokuapp.com/ap
     returns String: `date,description,maxTemp,minTemp`
 */
 
+console.log('started')
+
 
 spookbot
 .goto(METSERVICE_WELLY_URL)

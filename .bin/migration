@@ -1,0 +1,40 @@
+#!/usr/env/node
+const dbConnection = require('../db-service').DB_CONN
+
+const args = process.argv.slice(2)
+
+if(!args[0]) return console.error('but what u wanna do?')
+
+switch(args[0].toLowerCase()) {
+  case 'up': create()
+    break
+  case 'down': destroy()
+    break
+  default: console.error('nuthin doin pal')
+}
+
+function create () {
+  dbConnection.none(
+    'create table wgtn_weather (id serial primary key,date char(255),description char(255),max_temp char(255),min_temp char(255))'
+  )
+  .then(() => {
+    console.log('"up and at them!"\n\n"no, no, up and atom!"')
+    return dbConnection.$pool.end()
+  })
+  .catch(err => {
+    console.error(err)
+    throw err
+  })
+}
+
+function destroy () {
+  dbConnection.none('drop table wgtn_weather')
+  .then(() => {
+    console.log('Mr Gorebachov, tear down that wall!')
+    return dbConnection.$pool.end()
+  })
+  .catch(err => {
+    console.error(err)
+    throw err
+  })
+}

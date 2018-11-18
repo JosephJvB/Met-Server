@@ -17,10 +17,10 @@ module.exports = {
     // get me the latest entry - one item with highest id
     return dbConnection.one('select * from wgtn_weather order by id desc limit 1')
       .then(latest => ({
-        date: latest.date,
-        desc: latest.description,
-        maxTemp: latest.max_temp,
-        minTemp: latest.min_temp
+        date: latest.date.trim(), // have lots of white-space? i dunno
+        desc: latest.description.trim(),
+        maxTemp: latest.max_temp.trim(),
+        minTemp: latest.min_temp.trim()
       }))
       .catch(err => {
         console.error('\n\nPG-P error\n\n\n', err)
@@ -28,3 +28,5 @@ module.exports = {
       })
   }
 }
+
+module.exports.DB_CONN = dbConnection

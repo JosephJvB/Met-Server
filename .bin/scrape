@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // shbang and chmod -x means this file can be run by bash
 // or I can just tell heroku to run it with node...
+// https://github.com/segmentio/nightmare/issues/497
+// https://github.com/oscarmorrison/nightmare-heroku
 const Nightmare = require('nightmare')
 const cheerio = require('cheerio')
 const got = require('got')
@@ -48,5 +50,8 @@ spookbot
   return got.post(SAVE_DATA_URL, {
     body: weatherDataString,
     headers: { 'Content-Type': 'text/plain' }
-  }).catch(e => console.error('\n\noh no\n\n', e))
+  })
+  .then(() => process.exit())
+  .catch(e => console.error('\n\noh no\n\n', e))
 })
+console.log('after?')

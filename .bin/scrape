@@ -15,9 +15,6 @@ const SAVE_DATA_URL = process.env.PORT ? 'https://met-server-nz.herokuapp.com/ap
     returns String: `date,description,maxTemp,minTemp`
 */
 
-console.log('started')
-
-
 spookbot
 .goto(METSERVICE_WELLY_URL)
 .wait(300) // can accept a css selector also but I will do with MS first
@@ -44,8 +41,8 @@ spookbot
   const description = getTodayTextData('icon').toLowerCase()
   const maxTemp = getTodayTextData('high').split(' ')[0]
   const minTemp = getTodayTextData('low').split(' ')[0]
-  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}'`
-  console.log('\n\nweatherDataString\n\n')
+  const timestamp = Date()
+  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}'`
   // just gonna send it
   return got.post(SAVE_DATA_URL, {
     body: weatherDataString,
@@ -54,4 +51,3 @@ spookbot
   .then(() => process.exit())
   .catch(e => console.error('\n\noh no\n\n', e))
 })
-console.log('after?')

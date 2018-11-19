@@ -20,7 +20,8 @@ module.exports = {
         date: latest.date.trim(), // have lots of white-space? i dunno
         desc: latest.description.trim(),
         maxTemp: latest.max_temp.trim(),
-        minTemp: latest.min_temp.trim()
+        minTemp: latest.min_temp.trim(),
+        timestamp: latest.timestamp.trim()
       }))
       .catch(err => {
         console.error('\n\nPG-P SELECT error\n\n\n', err)
@@ -29,7 +30,7 @@ module.exports = {
   },
   saveWellyWeather: function insertScrapedData (scrapedDataString) {
     return dbConnection.none(
-      `insert into wgtn_weather (date,description,max_temp,min_temp) values (${scrapedDataString})`
+      `insert into wgtn_weather (date,description,max_temp,min_temp,timestamp) values (${scrapedDataString})`
     )
     .catch(err => {
       console.error('\n\nPG-P INSERT error\n\n\n', err)

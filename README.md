@@ -6,6 +6,7 @@ End-points
 ===========
 - Wellingon Weather
   - GET: `https://met-server-nz.herokuapp.com/api/v1/wgtn`
+  - Queries database for latest data returned from scrape
   - returns: JSON (eg below)
   ```json
   {
@@ -34,7 +35,13 @@ End-points
 
 ## What (comes next)?
 - Teach nightmare to scrape more accurate rain data
+
 ![rain-data-screenshot](./images/rain.png)
 
 - Teach nightmare to scrape wind data
+
 ![wind-data-screenshot](./images/wind.png)
+
+- Learn and use best practises for protecting endpoints
+
+- provide endpoints for more than just latest data. Historical data, data from specific dates. etc

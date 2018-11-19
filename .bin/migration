@@ -15,7 +15,7 @@ switch(args[0].toLowerCase()) {
 
 function create () {
   dbConnection.none(
-    'create table wgtn_weather (id serial primary key,date char(255),description char(255),max_temp char(255),min_temp char(255)),timestamp char(255)'
+    'create table wgtn_weather (id serial primary key,date char(255),description char(255),max_temp char(255),min_temp char(255),timestamp char(255))'
   )
   .then(() => {
     console.log('"up and at them!"\n\n"no, no, up and atom!"')

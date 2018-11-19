@@ -9,7 +9,7 @@ const got = require('got')
 
 const spookbot = Nightmare({show: false})
 const METSERVICE_WELLY_URL = 'https://www.metservice.com/towns-cities/wellington/wellington-city'
-const SAVE_DATA_URL = process.env.PORT ? 'https://met-server-nz.herokuapp.com/api/v1/save_scrape_data' : 'http://localhost:3000/api/v1/save_scrape_data'
+const SAVE_DATA_URL = process.env.UUID ? `https://met-server-nz.herokuapp.com/api/v1/${process.env.UU_EYE_DEE}/save_scrape_data` : 'http://localhost:3000/api/v1/local/save_scrape_data'
 
 /* Scrape engine, vroom vroom
     returns String: `date,description,maxTemp,minTemp`

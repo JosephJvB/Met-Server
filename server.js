@@ -2,9 +2,9 @@ const express = require('express')
 const api = express()
 const bodyParser = require('body-parser')
 
-
 const dbService = require('./db-service')
 const TO_THIS = process.env.PORT || 3000
+const UUID = process.env.UU_EYE_DEE || 'local'
 
 api.use(bodyParser.text())
 
@@ -19,7 +19,7 @@ api.get('/api/v1/wgtn', (req, res) => {
 
 // maybe include process.env.UUID so people cant post to my url
 // or some other way? I wonder what best practise is.
-api.post('/api/v1/save_scrape_data', (req, res) => {
+api.post(`/api/v1/${UUID}/save_scrape_data`, (req, res) => {
   return dbService.saveWellyWeather(req.body)
     .then(() => res.sendStatus(200))
     .catch(err => {

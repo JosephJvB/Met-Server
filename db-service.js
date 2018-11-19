@@ -1,6 +1,6 @@
 const pgp = require('pg-promise')()
 
-const PG_CONFIG = process.env.PORT
+const PG_CONFIG = process.env.DATABASE_URL
   ? process.env.DATABASE_URL // provided by heroku config var
   : {
 		host: 'localhost',

@@ -1,4 +1,4 @@
-<h1 align="center">Met-Server (a W.I.P.)</h1>
+<h1 align="center">Met-Server (* <em>currently-active</em> *)</h1>
 
 _Met-Server is an api-endpoint that returns weather data as JSON that has been scraped from `metservice.com`_
 
@@ -28,3 +28,13 @@ End-points
 - Met-Server uses **Nightmare.js**(headless browser) to scrape the Metservice website. **Cheerio.js** to parse the response html and **Pg-promise** to store the latest weather data in a **Postgres** database.
 
 - The headless browser script is triggered regularly by a chron-job to ensure that the data that is stored and served by the endpoint is up-to-date.
+
+## When?
+- Met-Server scrapes Metservice 3 times a day at **06:30**, **10:30** and **16:30** (NZT)
+
+## What (comes next)?
+- Teach nightmare to scrape more accurate rain data
+![rain-data-screenshot](./images/rain.png)
+
+- Teach nightmare to scrape wind data
+![wind-data-screenshot](./images/wind.png)

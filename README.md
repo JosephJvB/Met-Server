@@ -28,6 +28,7 @@ End-points
 - Met-Server is a **node.js** webserver hosted on **Heroku** that responds to GET requests with JSON.
 
 - Met-Server uses **Nightmare.js**(headless browser) to scrape the Metservice website. **Cheerio.js** to parse the response html and **Pg-promise** to store the latest weather data in a **Postgres** database.
+  - Massive thanks to the author of [this repo](https://github.com/oscarmorrison/nightmare-heroku) for finding and sharing a solution to run Nightmare on Heroku's servers.
 
 - The headless browser script is triggered regularly by a chron-job to ensure that the data that is stored and served by the endpoint is up-to-date.
 

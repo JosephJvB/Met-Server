@@ -21,7 +21,8 @@ module.exports = {
         desc: latest.description.trim(),
         maxTemp: latest.max_temp.trim(),
         minTemp: latest.min_temp.trim(),
-        timestamp: latest.timestamp.trim()
+        timestamp: latest.timestamp.trim(),
+        rainData: latest.rain_data.trim()
       }))
       .catch(err => {
         console.error('\n\nPG-P SELECT error\n\n\n', err)

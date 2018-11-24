@@ -14,7 +14,7 @@ const SAVE_DATA_URL = process.env.UU_EYE_DEE ? `https://met-server-nz.herokuapp.
 /* Scrape engine, vroom vroom
     returns String: `date,description,maxTemp,minTemp`
 */
-console.log('STARTING')
+console.log('BEGIN')
 
 spookbot
 .goto(METSERVICE_WELLY_URL)
@@ -63,7 +63,7 @@ spookbot
   function getRainAtString () {
     return rainAmountsMM.reduce((acc, amount, i) => {
       if(amount > 0.0) {
-        acc += `${amount}@${rainTimesAMPM[i]}`
+        acc += `${amount}mm@${rainTimesAMPM[i]}`
       }
       return acc
     }, '')
@@ -71,9 +71,10 @@ spookbot
   // end construction site
 
   // format all collected data into string for DB entry
-  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}',${rainAtTimeString}`
-  return console.log(weatherDataString)
+  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}','${rainAtTimeString}'`
+
   // just gonna send it
+  console.log('fineesh', weatherDataString)
   return got.post(SAVE_DATA_URL, {
     body: weatherDataString,
     headers: { 'Content-Type': 'text/plain' }

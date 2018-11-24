@@ -22,8 +22,10 @@ spookbot
 .evaluate(() => document.body.innerHTML) // evaluate runs in headless-browser console
 .end()
 .then(response => {
-  console.log('won the scrape!')
+  console.log('Spooked ya!')
   const $ = cheerio.load(response)
+
+  // Get desc, temp and timestamp
   const todayElement = $('[class*="active today"]') // rely on this class to find today
   const todayTitle = $(todayElement).find('h3').text() === 'Today'
   // lil error handler: future proof your homes
@@ -36,21 +38,14 @@ spookbot
     // todo: check result exists/looks allg before returning. Exists&&type 'string' might be enough?
     return result
   }
-
   // formatting formation!
   const date = getTodayTextData('date')
   const description = getTodayTextData('icon').toLowerCase()
   const maxTemp = getTodayTextData('high').split(' ')[0]
   const minTemp = getTodayTextData('low').split(' ')[0]
   const timestamp = Date()
-  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}'`
+  // get rain amount at time of day
   // start construction site
-  // Get rainAmount@Time
-  // what do I want that to actually look like
-  // create two arrays: rain amount & times, match amount and time by array index
-  // 'tr[class="times"]'
-  // each th[class*="actual"] innertext
-  // const rainTimes = $('tr[class="times"]')
   const rainTimesElements = $('tr[class="times"]>th')
   const rainTimesAMPM = Object.keys(rainTimesElements)
     .slice(0, 12)
@@ -63,13 +58,21 @@ spookbot
         .text()
         .substring(0, 3) // some = '0.0Rain in MM blah blah blah' I only want first 3 char
     })
-  
-  // ARRAYS = rainTimesAMPM && rainAmountsMM
-  /* now what? do I do a reduce, if amount > 0.0 then record amount at time 
-    display as string? <amount>@<time>&<amount>@<time>&... or 'NO RAIN'
-  */
+  const willRain = rainAmountsMM.find(amount => amount > 0.0) // bool
+  const rainAtTimeString = willRain ? getRainAtString() : 'No rain nurries'
+  function getRainAtString () {
+    return rainAmountsMM.reduce((acc, amount, i) => {
+      if(amount > 0.0) {
+        acc += `${amount}@${rainTimesAMPM[i]}`
+      }
+      return acc
+    }, '')
+  }
   // end construction site
 
+  // format all collected data into string for DB entry
+  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}',${rainAtTimeString}`
+  return console.log(weatherDataString)
   // just gonna send it
   return got.post(SAVE_DATA_URL, {
     body: weatherDataString,

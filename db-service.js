@@ -29,8 +29,10 @@ module.exports = {
       })
   },
   saveWellyWeather: function insertScrapedData (scrapedDataString) {
+    // const columnstring = 'date,description,max_temp,min_temp,timestamp,rain_data'
+    // should set columnstring in a default place so migration script and this use the same var
     return dbConnection.none(
-      `insert into wgtn_weather (date,description,max_temp,min_temp,timestamp) values (${scrapedDataString})`
+      `insert into wgtn_weather (date,description,max_temp,min_temp,timestamp,rain_data) values (${scrapedDataString})`
     )
     .catch(err => {
       console.error('\n\nPG-P INSERT error\n\n\n', err)

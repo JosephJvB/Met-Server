@@ -27,6 +27,7 @@ End-points
     "weather": "sunny",
     "maxTemp": "21˚C",
     "maxTemp": "14˚C",
+    "rainData": "0.5mm@2pm"
   }
   ```
 

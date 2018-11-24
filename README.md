@@ -1,4 +1,4 @@
-<h1 align="center">Met-Server (* <em>currently-active</em> *)</h1>
+<h1 align="center">Met-Server (* <em>currently-less-active</em> *)</h1>
 
 _Met-Server is an api-endpoint that returns weather data as JSON that has been scraped from `metservice.com`_
 

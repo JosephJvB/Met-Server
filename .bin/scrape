@@ -58,7 +58,7 @@ spookbot
         .text()
         .substring(0, 3) // some = '0.0Rain in MM blah blah blah' I only want first 3 char
     })
-  const willRain = rainAmountsMM.find(amount => amount > 0.0) // bool
+  const willRain = Boolean(rainAmountsMM.find(amount => amount > 0.0))
   const rainAtTimeString = willRain ? getRainAtString() : 'No rain nurries'
   function getRainAtString () {
     return rainAmountsMM.reduce((acc, amount, i) => {

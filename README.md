@@ -1,6 +1,19 @@
-<h1 align="center">Met-Server (* <em>currently-active</em> *)</h1>
+<h1 align="center">Met-Server (* <em>currently-less-active</em> *)</h1>
 
 _Met-Server is an api-endpoint that returns weather data as JSON that has been scraped from `metservice.com`_
+
+|======== EVICTION NOTICE =======|
+
+- This project has a short life-span:(like most of my projects) and here is why:
+- I found better API's quite simply. Use the thing that works the best not the thing you built.
+    - https://www.wttr.in/
+    - https://www.worldweatheronline.com/developer/
+- Im still gonna finish one more feature at least because Mum and Dad didn't raise no quitter.
+  - gonna scrape rainAmount@Time data
+
+|====== END EVICTION NOTICE ======|
+
+
 
 End-points
 ===========
@@ -14,6 +27,7 @@ End-points
     "weather": "sunny",
     "maxTemp": "21˚C",
     "maxTemp": "14˚C",
+    "rainData": "0.5mm@2pm"
   }
   ```
 

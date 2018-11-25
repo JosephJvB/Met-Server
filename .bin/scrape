@@ -14,6 +14,7 @@ const SAVE_DATA_URL = process.env.UU_EYE_DEE ? `https://met-server-nz.herokuapp.
 /* Scrape engine, vroom vroom
     returns String: `date,description,maxTemp,minTemp`
 */
+console.log('BEGIN')
 
 spookbot
 .goto(METSERVICE_WELLY_URL)
@@ -21,8 +22,10 @@ spookbot
 .evaluate(() => document.body.innerHTML) // evaluate runs in headless-browser console
 .end()
 .then(response => {
-  console.log('won the scrape!')
+  console.log('Spooked ya!')
   const $ = cheerio.load(response)
+
+  // Get desc, temp and timestamp
   const todayElement = $('[class*="active today"]') // rely on this class to find today
   const todayTitle = $(todayElement).find('h3').text() === 'Today'
   // lil error handler: future proof your homes
@@ -35,15 +38,43 @@ spookbot
     // todo: check result exists/looks allg before returning. Exists&&type 'string' might be enough?
     return result
   }
-
   // formatting formation!
   const date = getTodayTextData('date')
   const description = getTodayTextData('icon').toLowerCase()
   const maxTemp = getTodayTextData('high').split(' ')[0]
   const minTemp = getTodayTextData('low').split(' ')[0]
   const timestamp = Date()
-  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}'`
+  // get rain amount at time of day
+  // start construction site
+  const rainTimesElements = $('tr[class="times"]>th')
+  const rainTimesAMPM = Object.keys(rainTimesElements)
+    .slice(0, 12)
+    .map(key => $(rainTimesElements[key]).text())
+  const rainAmountElements = $('tr[class="rain"]>td') // is object of cheerio DOM elements
+  const rainAmountsMM = Object.keys(rainAmountElements)
+    .slice(0, 12) // there are way more than 12?? some hidden dom elements
+    .map(key => {
+      return $(rainAmountElements[key])
+        .text()
+        .substring(0, 3) // some = '0.0Rain in MM blah blah blah' I only want first 3 char
+    })
+  const willRain = Boolean(rainAmountsMM.find(amount => amount > 0.0))
+  const rainAtTimeString = willRain ? getRainAtString() : 'No rain nurries'
+  function getRainAtString () {
+    return rainAmountsMM.reduce((acc, amount, i) => {
+      if(amount > 0.0) {
+        acc += `${amount}mm@${rainTimesAMPM[i]}${i > 0 ? '&&' : ''}`
+      }
+      return acc
+    }, '')
+  }
+  // end construction site
+
+  // format all collected data into string for DB entry
+  const weatherDataString = `'${date}','${description}','${maxTemp}','${minTemp}','${timestamp}','${rainAtTimeString}'`
+
   // just gonna send it
+  console.log('fineesh', weatherDataString)
   return got.post(SAVE_DATA_URL, {
     body: weatherDataString,
     headers: { 'Content-Type': 'text/plain' }

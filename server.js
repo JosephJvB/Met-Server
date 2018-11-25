@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 
 const dbService = require('./db-service')
 const TO_THIS = process.env.PORT || 3000
-const UUID = process.env.UU_EYE_DEE || 'local'
+const { UUID } = require('./config')
 
 api.use(bodyParser.text())
 

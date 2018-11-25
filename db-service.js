@@ -1,17 +1,10 @@
 const pgp = require('pg-promise')()
 
-const PG_CONFIG = process.env.DATABASE_URL
-  ? process.env.DATABASE_URL // provided by heroku config var
-  : {
-		host: 'localhost',
-		port: 5432,
-		database: 'metserver_dev',
-		user: 'postgres',
-		password: 'postgres'
-  }
+const { PG_CONFIG } = require('./config')
   
 const dbConnection = pgp(PG_CONFIG)
 
+// export db action-functions
 module.exports = {
   gimmeWellyWeather: function getLatestWgtnWeather () {
     // get me the latest entry - one item with highest id
@@ -41,5 +34,5 @@ module.exports = {
     })
   }
 }
-
+// export connection for use in migrations script
 module.exports.DB_CONN = dbConnection

@@ -65,7 +65,7 @@ spookbot
   function getRainAtString () {
     return rainAmountsMM.reduce((acc, amount, i) => {
       if(amount > 0.0) {
-        acc += `${amount}mm@${rainTimesAMPM[i]}${i > 0 ? '&&' : ''}`
+        acc += `${amount}mm@${rainTimesAMPM[i]}${i < rainAmountsMM.length - 1 ? ' & ' : ''}`
       }
       return acc
     }, '')
